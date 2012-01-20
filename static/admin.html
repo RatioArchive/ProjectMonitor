@@ -1,0 +1,58 @@
+<html>
+  <head>
+    <title>Ratio Project Monitor Admin</title>
+    <script src="js/jquery1.7.1.js"></script>
+    <script src="js/jquery-ui-1.8.17.custom.min.js"></script>
+    <script src="js/toto.js"></script>
+    <script src="js/monitor.js"></script>
+    <link rel="stylesheet" href="css/default.css" type="text/css" />
+    <link rel="stylesheet" href="css/ui-darkness/jquery-ui-1.8.17.custom.css" type="text/css" />
+    <script type="text/javascript">
+      $(function() {
+        configureAddProjectDialog();
+        configureUpdateProjectDialog();
+        configureAdminOptions();
+        reloadStatus(true);
+      });
+
+    </script>
+  </head>
+  <body>
+    <div class="admin">
+      <button id="add-project">
+        Add Project
+      </button>
+    </div>
+    <div id="add-project-dialog" title="Add Project">
+      <p class="validateTips">
+        All fields are required.
+      </p>
+      <form>
+        <fieldset>
+          <label for="name">Name</label>
+          <input type="text" name="name" id="project-name" class="text ui-widget-content ui-corner-all" />
+          <label for="client">Client</label>
+          <input type="text" name="client" id="project-client" class="text ui-widget-content ui-corner-all" />
+        </fieldset>
+      </form>
+    </div>
+    <div id="update-project-dialog" title="Update Project">
+      <p class="validateTips">
+        All fields are required.
+      </p>
+      <form>
+        <fieldset>
+          <label for="hours_spent">Hours Spent</label>
+          <input type="text" name="hours_spent" id="hours_spent" class="text ui-widget-content ui-corner-all" />
+          <label for="hours_budgeted">Hours Budgeted</label>
+          <input type="text" name="hours_budgeted" id="hours_budgeted" class="text ui-widget-content ui-corner-all" />
+          <label for="story_progress">Story Progress (%)</label>
+          <input type="text" name="story_progress" id="story_progress" class="text ui-widget-content ui-corner-all" />
+          <label for="project_progress">Project Progress (%)</label>
+          <input type="text" name="project_progress" id="project_progress" class="text ui-widget-content ui-corner-all" />
+        </fieldset>
+      </form>
+    </div>
+    <table id="main" class="content"></table>
+  </body>
+</html>
