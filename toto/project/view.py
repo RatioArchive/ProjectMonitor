@@ -26,11 +26,20 @@ def invoke(handler, params):
       view['average_velocity'] = sum(view['velocities'])/len(view['velocities'])
       view['stddev_velocity'] = sqrt(sum([(v - view['average_velocity']) ** 2 for v in view['velocities']]) / len(view['velocities']))
     hour_progress = view['hours_budgeted'] and float(view['hours_spent']) / view['hours_budgeted'] or 0
-    view['status'] = {'hours': hour_progress <= view['project_progress'] and STATUS_GOOD or hour_progress < view['project_progress'] + 0.05 and STATUS_OK or STATUS_BAD,
-                      'story': view['story_progress'] <= view['project_progress'] and STATUS_GOOD or view['story_progress'] < view['project_progress'] + 0.05 and STATUS_OK or STATUS_BAD}
+    view['status'] = {'components': {
+      'hours': {
+        'code': hour_progress <= view['project_progress'] and STATUS_GOOD or hour_progress < view['project_progress'] + 0.05 and STATUS_OK or STATUS_BAD,
+        'message': 'Usage: %d%% Project: %d%%' % (int(hour_progress * 100), int(view['project_progress'] * 100))},
+      'story': {
+        'code': view['story_progress'] <= view['project_progress'] and STATUS_GOOD or view['story_progress'] < view['project_progress'] + 0.05 and STATUS_OK or STATUS_BAD,
+        'message': 'Current: %d%% Project: %d%%' % (int(view['story_progress'] * 100), int(view['project_progress'] * 100))},
+    }}
     if view['velocities']:
       diff = view['average_velocity'] - view['velocities'][0]
-      view['status']['velocity'] = diff <= view['stddev_velocity'] and STATUS_GOOD or diff <= 3 * view['stddev_velocity'] and STATUS_OK or STATUS_BAD
-    view['status']['general'] = max((view['status'][k] for k in view['status']))
+      view['status']['components']['velocity'] = {
+        'code': diff <= view['stddev_velocity'] and STATUS_GOOD or diff <= 3 * view['stddev_velocity'] and STATUS_OK or STATUS_BAD,
+        'message': 'Current: %d%% Average: %d%%' % (int(view['velocities'][0] * 100), int(view['average_velocity'] * 100))
+      }
+    view['status']['code'] = max((view['status']['components'][k]['code'] for k in view['status']['components']))
     views.append(view)
   return views

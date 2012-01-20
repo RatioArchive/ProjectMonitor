@@ -1,7 +1,42 @@
 var toto = new Toto('service');
 
 function generateStatusRow(project, admin) {
-  var row = ['<tr class="project"><td class="client">', project.client, '</td><td class="name">', project.name, '</td>'];
+
+  var row = ['<tr class="project">'];
+
+  row.push('<td class="status-box">');
+  function statusBlock(code, title, message) {
+    row.push('<div class="status status-');
+    row.push(code);
+    row.push('">');
+    if(title) {
+      row.push('<div class="title">');
+      row.push(title);
+      row.push('</div>');
+    }
+    if(message) {
+      row.push('<div class="message">');
+      row.push(message);
+      row.push('</div>');
+    }
+    row.push('</div>');
+  };
+
+  if(admin) {
+    for(var k in project.status.components) {
+      statusBlock(project.status.components[k].code, k, project.status.components[k].message);
+    }
+  } else {
+    statusBlock(project.status.code);
+  }
+  row.push('</td>');
+
+  row.push('<td class="client">');
+  row.push(project.client);
+  row.push('</td><td class="name">');
+  row.push(project.name);
+  row.push('</td>');
+
   if(admin) {
     row.push('<td><button class="update" name="');
     row.push(project.name);
@@ -10,21 +45,7 @@ function generateStatusRow(project, admin) {
     row.push(project.name);
     row.push('">Hide</button></td>');
   }
-  row.push('<td class="status-box">');
-  if(admin) {
-    for(var k in project.status) {
-      row.push('<div class="status status-');
-      row.push(project.status[k]);
-      row.push('">');
-      row.push(k);
-      row.push('</div>');
-    }
-  } else {
-    row.push('<div class="status status-');
-    row.push(project.status.general);
-    row.push('"/>');
-  }
-  row.push('</td></tr>');
+  row.push('</tr>');
   return row.join('');
 };
 
@@ -62,9 +83,6 @@ function configureAddProjectDialog() {
       "Create project" : function() {
         var valid = true;
         valid = $("#project-name").val().length > 0 && $("#project-client").val().length > 0;
-        console.log($("#project-name").val());
-        console.log($("#project-client").val());
-        console.log(valid);
         if(valid) {
 
           var dialog = $(this);
@@ -100,7 +118,6 @@ function configureUpdateProjectDialog() {
       "Update" : function() {
         var valid = true;
         valid = $("#hours_spent").val().length > 0 && $("#hours_budgeted").val().length > 0 && $("#story_progress").val().length > 0 && $("#project_progress").val().length > 0;
-        console.log(valid);
         if(valid) {
           var dialog = $(this);
           toto.request("project.update", {

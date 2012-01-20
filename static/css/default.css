@@ -1,64 +1,71 @@
 body {
   background-color: #000;
+  background-image: url('../images/background.jpg');
+  margin: 0px;
+  font-family: Helvetica
 }
-
-div.admin {
-    height:100px;
-    width:100%;
-}
-
-tr.project {
-  height: 110px;
+div.header {
+  padding: 10px;
+  height: 80px;
   width: 100%;
+  background: url('../images/top-bar.png');
+}
+#main {
+  margin-left: 50px;
+}
+tr.project {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  height: 140px;
+  min-width: 80%;
   position: relative;
   vertical-align: middle;
+  background: url('../images/divider.png') bottom left no-repeat;
 }
-
 tr.project .client {
-  color:#999;
-  font-size:30pt;
-  padding-right:20px;
+  color: #999;
+  font-size: 30pt;
+  padding-right: 20px;
 }
-
 tr.project .name {
-  color:#FFF;
-  font-size:30pt;
-  padding-right:20px;
+  color: #FFF;
+  font-size: 30pt;
+  padding-right: 20px;
 }
-
 tr.project .status-box {
   height: 100px;
-  right:0px;
-  position:absolute;
-  /*display: inline;*/
+  padding-right: 50px;
 }
-
 tr.project .status {
   height: 100px;
   width: 100px;
-  display:inline-block;
+  display: inline-block;
   margin-left: 10px;
   text-align: center;
   vertical-align: middle;
+  position: relative;
+  color: #FFF;
 }
-
-
+tr.project .status .title {
+  padding-top: 10px;
+  text-transform: capitalize;
+  padding-bottom: 5px;
+}
+tr.project .status .message {
+  color: #CCC;
+}
 tr.project .status-1 {
-  background-color: #0F0;
+  background: url('../images/green.png') no-repeat;
 }
-
 tr.project .status-2 {
-  background-color: #FF0;
+  background: url('../images/yellow.png') no-repeat;
 }
-
 tr.project .status-3 {
-  background-color: #F00;
+  background: url('../images/red.png') no-repeat;
 }
-
 tr.project .hide {
-    margin-left: 20px;
+  margin-left: 20px;
 }
-
 tr.project .update {
-   margin-left: 20px;
+  margin-left: 20px;
 }
