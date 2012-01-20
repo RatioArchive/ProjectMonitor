@@ -1,4 +1,2 @@
-pymongo
-tornado
-MySQL-python
+-e git://github.com/JeremyOT/Toto.git#egg=Toto
 
