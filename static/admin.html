@@ -13,6 +13,7 @@
         configureUpdateProjectDialog();
         configureAdminOptions();
         reloadStatus(true);
+        pollServer(function(){reloadStatus(true);}, true);
       });
 
     </script>

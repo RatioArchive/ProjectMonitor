@@ -10,7 +10,7 @@ def invoke(handler, params):
   if 'name' in params:
     project = handler.connection.db.projects.find_one({'name': params['name'], 'hidden': {'$ne': True}})
     if not project:
-      raise TotoError(ERROR_INVALID_PROJECT, "No project exists with that name.")
+      raise TotoException(ERROR_INVALID_PROJECT, "No project exists with that name.")
     projects = [project,]
   else:
     projects = [project for project in handler.connection.db.projects.find({'hidden': {'$ne': True}})]

@@ -73,6 +73,17 @@ function reloadStatus(admin) {
   });
 };
 
+function pollServer(callback, continuous) {
+    var response = function(m) {
+      console.log(m);
+      callback();
+      if (continuous) {
+          pollServer(callback, continuous);
+      }  
+    };
+    toto.request("project.poll", {}, response, response);
+}
+
 function configureAddProjectDialog() {
   $('#add-project-dialog').dialog({
     autoOpen : false,
