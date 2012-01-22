@@ -1,5 +1,6 @@
 from toto.invocation import *
 from toto.exceptions import *
+from toto.events import EventManager
 
 @requires('name')
 def invoke(handler, params):

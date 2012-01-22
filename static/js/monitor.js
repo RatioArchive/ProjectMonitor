@@ -51,7 +51,6 @@ function generateStatusRow(project, admin) {
 
 function reloadStatus(admin) {
   toto.request("project.view", {}, function(response) {
-    console.log(response);
     response.sort(function(a, b) {
       if(a.client == b.client) {
         var an = a.name.toLowerCase(), bn = b.name.toLowerCase();
@@ -75,7 +74,6 @@ function reloadStatus(admin) {
 
 function pollServer(callback, continuous) {
     var response = function(m) {
-      console.log(m);
       callback();
       if (continuous) {
           pollServer(callback, continuous);
