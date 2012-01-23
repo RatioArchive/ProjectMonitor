@@ -11,12 +11,15 @@
       $(function() {
         reloadStatus();
         pollServer(reloadStatus, true);
+        continuousScroll();
       });
 
     </script>
   </head>
   <body>
     <div class="header"></div>
-    <table id="main" class="content"></table>
+    <div class="main">
+      <table id="projects"></table>
+    </div>
   </body>
 </html>

@@ -9,9 +9,19 @@ div.header {
   height: 80px;
   width: 100%;
   background: url('../images/top-bar.png');
+  z-index: 100;
+  position: absolute;
 }
-#main {
+
+.main {
   margin-left: 50px;
+  padding-top: 80px;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  left: 0px;
+  bottom: 0px;
+  overflow-y: scroll;
 }
 tr.project {
   padding-top: 20px;

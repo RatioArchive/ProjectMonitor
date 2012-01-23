@@ -41,9 +41,9 @@ function generateStatusRow(project, admin) {
     row.push('<td><button class="update" name="');
     row.push(project.name);
     row.push('">Update</button>');
-    row.push('<button class="hide" name="');
+    row.push('<button class="delete" name="');
     row.push(project.name);
-    row.push('">Hide</button></td>');
+    row.push('">Delete</button></td>');
   }
   row.push('</tr>');
   return row.join('');
@@ -58,11 +58,11 @@ function reloadStatus(admin) {
       }
       return a.client.toLowerCase() < b.client.toLowerCase() ? -1 : 1;
     });
-    $("#main").children().remove();
+    $("#projects").children().remove();
     window.projects = {};
     for(var i = 0; i < response.length; i++) {
       window.projects[response[i].name] = response[i];
-      $("#main").append(generateStatusRow(response[i], admin));
+      $("#projects").append(generateStatusRow(response[i], admin));
     }
     if(admin) {
       configureAdminOptions();
@@ -73,14 +73,39 @@ function reloadStatus(admin) {
 };
 
 function pollServer(callback, continuous) {
-    var response = function(m) {
-      callback();
-      if (continuous) {
-          pollServer(callback, continuous);
-      }  
-    };
-    toto.request("project.poll", {}, response, response);
+  var response = function(m) {
+    callback();
+    if(continuous) {
+      pollServer(callback, continuous);
+    }
+  };
+  toto.request("project.poll", {}, response, response);
 }
+
+function configureDeleteProjectDialog() {
+  $('#delete-project-dialog').dialog({
+    autoOpen : false,
+    height : 300,
+    width : 350,
+    modal : true,
+    buttons : {
+      Delete : function() {
+        var dialog = $(this);
+        toto.request("project.delete", {
+          "name" : $('#delete-name').text()
+        }, function() {
+          dialog.dialog("close");
+          reloadStatus(true);
+        }, function() {
+          reloadStatus(true);
+        });
+      },
+      Cancel : function() {
+        $(this).dialog("close");
+      }
+    }
+  });
+};
 
 function configureAddProjectDialog() {
   $('#add-project-dialog').dialog({
@@ -110,8 +135,6 @@ function configureAddProjectDialog() {
       Cancel : function() {
         $(this).dialog("close");
       }
-    },
-    close : function() {
     }
   });
 };
@@ -147,8 +170,6 @@ function configureUpdateProjectDialog() {
       Cancel : function() {
         $(this).dialog("close");
       }
-    },
-    close : function() {
     }
   });
 };
@@ -157,14 +178,9 @@ function configureAdminOptions() {
   $("#add-project").button().click(function() {
     $("#add-project-dialog").dialog("open");
   });
-  $(".hide").button().click(function() {
-    toto.request("project.hide", {
-      "name" : $(this).attr("name")
-    }, function() {
-      reloadStatus(true);
-    }, function() {
-      reloadStatus(true);
-    });
+  $(".delete").button().click(function() {
+    $('#delete-name').text($(this).attr("name"));
+    $('#delete-project-dialog').dialog('open');
   });
   $(".update").button().click(function() {
     var project = window.projects[$(this).attr("name")];
@@ -174,5 +190,20 @@ function configureAdminOptions() {
     $("#story_progress").val(project["story_progress"] * 100);
     $("#project_progress").val(project["project_progress"] * 100);
     $("#update-project-dialog").dialog("open");
+  });
+};
+
+function continuousScroll() {
+  var position = $(".main").scrollTop() + 140;
+  if(position >= ($("#projects").height() -  $(".main").height() + 140)) {
+    position = 0;
+  }
+  $(".main").animate({
+    scrollTop : position
+  }, {
+    duration : 500,
+    complete : function() {
+      setTimeout('continuousScroll();', 5000);
+    }
   });
 };

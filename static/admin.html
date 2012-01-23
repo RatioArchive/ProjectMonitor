@@ -12,8 +12,10 @@
         configureAddProjectDialog();
         configureUpdateProjectDialog();
         configureAdminOptions();
+        configureDeleteProjectDialog();
         reloadStatus(true);
-        pollServer(function(){reloadStatus(true);}, true);
+        pollServer(function() {reloadStatus(true);
+        }, true);
       });
 
     </script>
@@ -25,9 +27,6 @@
       </button>
     </div>
     <div id="add-project-dialog" title="Add Project">
-      <p class="validateTips">
-        All fields are required.
-      </p>
       <form>
         <fieldset>
           <label for="name">Name</label>
@@ -37,10 +36,10 @@
         </fieldset>
       </form>
     </div>
+    <div id="delete-project-dialog" title="Add Project">
+      <h2>Are you sure you want to delete <span id="delete-name"></span>?</h2>
+    </div>
     <div id="update-project-dialog" title="Update Project">
-      <p class="validateTips">
-        All fields are required.
-      </p>
       <form>
         <fieldset>
           <label for="hours_spent">Hours Spent</label>
@@ -54,6 +53,8 @@
         </fieldset>
       </form>
     </div>
-    <table id="main" class="content"></table>
+    <div class="main">
+      <table id="projects"></table>
+    </div>
   </body>
 </html>

@@ -1,6 +1,6 @@
 import add
 import update
 import view
-import hide
+import delete
 import poll
 

@@ -21,7 +21,7 @@ def invoke(handler, params):
     if '_id' in view:
       del view['_id']
     view['client'] = project['client']
-    view['velocities'] = [updates[i-1]['project_progress'] - updates[i]['project_progress'] for i in xrange(1, len(updates))]
+    view['velocities'] = [(updates[i-1]['project_progress'] - updates[i]['project_progress'])/(updates[i-1]['timestamp'] - updates[i]['timestamp']) for i in xrange(1, len(updates))]
     if view['velocities']:
       view['average_velocity'] = sum(view['velocities'])/len(view['velocities'])
       view['stddev_velocity'] = sqrt(sum([(v - view['average_velocity']) ** 2 for v in view['velocities']]) / len(view['velocities']))
