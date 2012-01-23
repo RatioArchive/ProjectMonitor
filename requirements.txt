@@ -1,3 +1,4 @@
 -e git://github.com/JeremyOT/Toto.git#egg=Toto
 pymongo
+tornado
 
